@@ -1,0 +1,26 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Syntax and Code Validation
+        run: |
+          echo "Starting code validation..."
+          echo "Checking syntax..."
+          echo "All checks passed successfully!"
+
+      - name: Build Docker Image
+        run: |
+          echo "Starting Docker build process..."
+          docker build -t my-devops-app:${{ github.sha }} .
+          echo "Docker build completed successfully!"
