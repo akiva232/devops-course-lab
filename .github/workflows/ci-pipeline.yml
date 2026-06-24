@@ -1,32 +1,26 @@
-# השם של הפייפליין כפי שיופיע ב-GitHub
 name: Continuous Integration
 
-# 1. הטריגר: מתי להריץ את הפייפליין?
 on:
   pull_request:
     branches:
-      - main # ירוץ רק כשפותחים PR שמיועד להגיע לתוך בראנץ' main
+      - main
 
-# 2. ה-Jobs: מה הפייפליין הולך לעשות בפועל?
 jobs:
   test-and-validate:
-    # על איזו מכונה וירטואלית להריץ את הבדיקות (GitHub מספקת לנו אותה)
     runs-on: ubuntu-latest
 
     steps:
-      # שלב א': הורדת הקוד מה-Repository לתוך המכונה הוירטואלית
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # שלב ב': הדמיה של הרצת בדיקות (כאן בהמשך נריץ בדיקות אמיתיות)
       - name: Run Syntax and Code Validation
         run: |
           echo "Starting code validation..."
           echo "Checking syntax..."
           echo "All checks passed successfully!"
 
-      # שלב ג': מכיוון שאתה שוחה בדוקר, בוא נוודא שהקוד מסוגל לעבור Build של דוקר
-      - name: Verify Docker Build (Dry Run)
+      - name: Build Docker Image
         run: |
-          echo "Simulating Docker build to ensure Dockerfile is valid..."
-          # בשלב הבא ניצור Dockerfile אמיתי ונריץ build מלא
+          echo "Starting Docker build process..."
+          docker build -t my-devops-app:${{ github.sha }} .
+          echo "Docker build completed successfully!"
